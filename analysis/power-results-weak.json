@@ -1,0 +1,129 @@
+{
+ "reps": 500,
+ "assumptions": {
+  "ascEarly": -1.8,
+  "ascLate": -2.1,
+  "shift60": -0.8,
+  "crowdStanding": -0.4,
+  "crowdPacked": -1,
+  "fareA": -0.5,
+  "SD_FARE_LOG": 0.5,
+  "SD_SHIFT": 0.8
+ },
+ "params": [
+  "ascEarly",
+  "ascLate",
+  "shift60",
+  "crowdStanding",
+  "crowdPacked",
+  "fare",
+  "fareXB"
+ ],
+ "results": [
+  {
+   "nPerGroup": 40,
+   "attenuation": 0,
+   "power": 0.03,
+   "meanFareXB": -0.009836962620064801,
+   "meanOffpeak": 0.3828399999999998
+  },
+  {
+   "nPerGroup": 40,
+   "attenuation": 0.25,
+   "power": 0.13,
+   "meanFareXB": 0.09944617661765083,
+   "meanOffpeak": 0.3702099999999996
+  },
+  {
+   "nPerGroup": 40,
+   "attenuation": 0.4,
+   "power": 0.25,
+   "meanFareXB": 0.1758694081871863,
+   "meanOffpeak": 0.3596199999999998
+  },
+  {
+   "nPerGroup": 40,
+   "attenuation": 0.5,
+   "power": 0.318,
+   "meanFareXB": 0.20796191895711402,
+   "meanOffpeak": 0.3555799999999997
+  },
+  {
+   "nPerGroup": 40,
+   "attenuation": 0.75,
+   "power": 0.656,
+   "meanFareXB": 0.3376954132764891,
+   "meanOffpeak": 0.34147249999999985
+  },
+  {
+   "nPerGroup": 60,
+   "attenuation": 0,
+   "power": 0.046,
+   "meanFareXB": -0.0010682305284334373,
+   "meanOffpeak": 0.3849516666666664
+  },
+  {
+   "nPerGroup": 60,
+   "attenuation": 0.25,
+   "power": 0.164,
+   "meanFareXB": 0.10854966324221813,
+   "meanOffpeak": 0.36954500000000035
+  },
+  {
+   "nPerGroup": 60,
+   "attenuation": 0.4,
+   "power": 0.334,
+   "meanFareXB": 0.17517535849143198,
+   "meanOffpeak": 0.3597283333333333
+  },
+  {
+   "nPerGroup": 60,
+   "attenuation": 0.5,
+   "power": 0.464,
+   "meanFareXB": 0.21038442821624562,
+   "meanOffpeak": 0.3544650000000002
+  },
+  {
+   "nPerGroup": 60,
+   "attenuation": 0.75,
+   "power": 0.838,
+   "meanFareXB": 0.3329782550476732,
+   "meanOffpeak": 0.3435666666666666
+  },
+  {
+   "nPerGroup": 80,
+   "attenuation": 0,
+   "power": 0.054,
+   "meanFareXB": 0.0012110603017669345,
+   "meanOffpeak": 0.3848012500000002
+  },
+  {
+   "nPerGroup": 80,
+   "attenuation": 0.25,
+   "power": 0.184,
+   "meanFareXB": 0.10706009591718885,
+   "meanOffpeak": 0.3677250000000002
+  },
+  {
+   "nPerGroup": 80,
+   "attenuation": 0.4,
+   "power": 0.448,
+   "meanFareXB": 0.17715855207599338,
+   "meanOffpeak": 0.36170624999999984
+  },
+  {
+   "nPerGroup": 80,
+   "attenuation": 0.5,
+   "power": 0.58,
+   "meanFareXB": 0.21565682251559878,
+   "meanOffpeak": 0.355335
+  },
+  {
+   "nPerGroup": 80,
+   "attenuation": 0.75,
+   "power": 0.918,
+   "meanFareXB": 0.33317520608493023,
+   "meanOffpeak": 0.3412937499999996
+  }
+ ]
+}
