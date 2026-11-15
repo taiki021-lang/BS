@@ -437,6 +437,13 @@ export function FareRuleScreen({ design, onDone, onBack }: { design: Design; onD
   const options = DISCOUNT_LEVELS.map((d) => formatMoney(fareCents(d, false)))
   return (
     <>
+      <img
+        src="/media/fare-rule-2035.svg"
+        alt="The 2035 fare rule: leaving at your usual time is peak and costs $15.00 every day; leaving earlier or later is off-peak, with a discount of 0 to 45 percent that depends on the day of the week. Each office day is one trip."
+        className="mb-4 block h-auto w-full rounded-2xl shadow-sm"
+        width={720}
+        height={560}
+      />
       <H1>The 2035 fare rule</H1>
       <Card className="mb-4 text-sm leading-relaxed">
         <ul className="list-disc space-y-1.5 pl-5">
