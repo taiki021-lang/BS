@@ -317,7 +317,6 @@ export function IntroVideoScreen({ onNext, onBack }: { onNext: () => void; onBac
         <video
           className="mx-auto block max-h-[58vh] w-full object-contain"
           src="/media/intro-2035.mp4"
-          poster="/media/commute-2035.jpg"
           controls
           playsInline
           preload="metadata"
@@ -349,21 +348,16 @@ export function Scenario({ condition, usualMin, reportedMin, workExperience, onN
     ['🚇', 'Gateless rail', 'You walk straight through the station. No tapping, no tickets.'],
     ['🕗', 'Fares change by time and day', 'Trips in the busy peak cost more; off-peak trips are discounted.'],
     ['💵', `A ${formatMoney(ALLOWANCE_CENTS)} commuting allowance`, `Your employer gives you ${formatMoney(ALLOWANCE_CENTS)} for the ten office days in this game. Whatever you don’t spend on fares, you keep.`],
-    ['🏠', 'Hybrid work', 'You work a hybrid schedule. In this game your office days are already set; you only decide when to travel on each of them. Please use this setting even if your past job was different.'],
+    ['🏡', 'You live in the suburbs', 'With hybrid work, you no longer go in every day, so like many people in 2035 you live in a suburb outside the city. You take a regional train into the city center.'],
+    ['📅', 'Hybrid work', 'In this game your office days are already set; you only decide when to travel on each of them. Please use this setting even if your past job or home was different.'],
   ]
   return (
     <>
-      <img
-        src="/media/commute-2035.jpg"
-        alt="Your commute in 2035: hybrid work, gateless rail where you walk straight in, ten fixed office days where you choose when to travel, fares that vary by time and day, and a $50 allowance from your employer that you keep if unspent."
-        className="mb-4 block h-auto w-full rounded-2xl shadow-sm"
-        width={1280}
-        height={960}
-      />
       <H1>It’s 2035</H1>
       <p className="mb-4 text-slate-600">
-        Imagine commuting in{' '}
-        {workExperience === WORK_EXPERIENCE[0] ? 'the city where you work' : workExperience === WORK_EXPERIENCE[2] ? 'the city where you live now' : 'the city where you last worked full-time'}, in 2035:
+        Imagine it’s 2035. You work in{' '}
+        {workExperience === WORK_EXPERIENCE[0] ? 'the city where you work now' : workExperience === WORK_EXPERIENCE[2] ? 'the city where you live now' : 'the city where you last worked full-time'}, but you live in a
+        suburb and take the train in:
       </p>
       <div className="mb-4 space-y-2">
         {items.map(([icon, title, body]) => (
@@ -547,7 +541,7 @@ export function TaskScreen({ task, condition, usualMin, onChoose }: {
         </div>
         <p className="text-sm leading-snug text-indigo-950">
           <strong>{task.day} morning.</strong> Your team has a meeting first thing in the morning. You usually leave home
-          at <strong>{formatTime(usualMin)}</strong> <strong>When do you leave?</strong>
+          for the train into the city at <strong>{formatTime(usualMin)}</strong> <strong>When do you leave?</strong>
         </p>
       </div>
       {/* Rules reminder: identical in A and B; never mentions fares, discounts or the allowance. */}

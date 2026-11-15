@@ -68,7 +68,7 @@ export function simulateSubmission(seed: number, participantId: string, now = Da
     choices,
     rule_check_attempts: 1,
     estimate_confidence: 1 + randInt(r, 5),
-    estimated_total_cents: 100 * (25 + randInt(r, 26)),
+    estimated_total_cents: 100 * (75 + randInt(r, 76)),
     estimate_warning_shown: false,
     actual_total_cents: actual,
     allowance_cents: ALLOWANCE_CENTS,

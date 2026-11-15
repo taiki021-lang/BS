@@ -52,12 +52,12 @@ get a new condition.
 ## 3. Experiment design and assumptions
 
 All design code is in [`src/lib/design.ts`](src/lib/design.ts) and constants in [`src/lib/config.ts`](src/lib/config.ts).
-Design version: `invisible-fares-v1.5` (v1.5: “Another day” option removed → three options; clearer instructions; income question removed. v1.4: paired A/B task designs within each block; v1.1: profile questions; v1.2: block randomization, game departure time clamped to 6:30–9:30, wording fixes, progress log; v1.3: consent AI/withdrawal statements, fare-awareness and persona items, manipulation check, decision factors. The task design is unchanged since v1.2.), stored with every record.
+Design version: `invisible-fares-v1.7` (v1.7: peak fare $15.00, allowance $150, suburban setting; v1.6: intro video; v1.5: “Another day” option removed → three options; clearer instructions; income question removed. v1.4: paired A/B task designs within each block; v1.1: profile questions; v1.2: block randomization, game departure time clamped to 6:30–9:30, wording fixes, progress log; v1.3: consent AI/withdrawal statements, fare-awareness and persona items, manipulation check, decision factors. The task design is unchanged since v1.2.), stored with every record.
 
 | Element | Implementation |
 |---|---|
-| Peak fare | $5.00 every day |
-| Off-peak discounts | 0, 15, 30, 45 %, so off-peak fares are $5.00 / $4.25 / $3.50 / $2.75 (integer cents) |
+| Peak fare | $15.00 every day (regional train from a suburb into the city) |
+| Off-peak discounts | 0, 15, 30, 45 %, so off-peak fares are $15.00 / $12.75 / $10.50 / $8.25 (integer cents) |
 | Fare rule | Random mapping of discounts to Mon–Fri: all four levels plus one randomly repeated level (5 days, 4 levels) |
 | Tasks | 10. Each weekday appears exactly twice, in random order. All four discount levels always appear. |
 | Crowding | Peak option: standing/packed. Off-peak options: seated/standing. |
@@ -102,9 +102,11 @@ and nothing is labelled as a saving. Fares in A are plain text in the same color
    Since v1.2 the time used in the game is **clamped to 6:30–9:30 a.m.**, so "your usual time" is a plausible busy
    period and shifted times stay realistic (no 4 a.m. or noon departures). The reported time is kept in `profile`;
    the game time is `design_usual_departure_min`. The scenario page says when a time was adjusted.
-4. **Allowance = $50 for the ten office days** (ten peak trips). An all-peak plan uses exactly the allowance and
-   any shift leaves money over. The proposal suggested "e.g. $100 per month". Change `ALLOWANCE_CENTS` and bump
-   `DESIGN_VERSION` if you prefer another amount.
+4. **Fare level and allowance (v1.7).** Respondents live in a suburb and take a regional train into the city (with
+   hybrid work, fewer people need to live close in). Peak fare **$15.00**, so a 45% discount saves $6.75 per trip;
+   at $5.00 (v1.0–v1.6) the largest saving was $2.25, likely too small for this sample to react to (floor effect for
+   H1). **Allowance = $150 for the ten office days** (ten peak trips): an all-peak plan uses exactly the allowance and
+   any shift leaves money over.
 5. **Shift costs.** Earlier: "Wake up 30 minutes / 1 hour earlier". Later: "Arrive 30 minutes late for your morning
    team meeting" / "Miss your morning team meeting".
 6. **Recall question comes after the bill reveal** (as in the requested flow). The reveal shows only totals, not
@@ -151,11 +153,11 @@ following still holds:
 simulates respondents (mixed-logit data-generating process with individual heterogeneity), fits a conditional logit
 with respondent-clustered SEs and counts how often the Condition × Fare interaction is significant (α = 0.05,
 500 replications). **All parameters are planning assumptions, not data**; replace them with pilot estimates. Results
-are saved in `analysis/power-results*.json`. With the base assumptions (three options; fare coefficient −1.0 per $ in A; preferences calibrated so the simulated
-off-peak share is ≈ 49 %, inside the proposal's 30–60 % pilot target) and 60 respondents per condition: power ≈
-0.34 / 0.71 / 0.86 if fare sensitivity in B is 25 / 40 / 50 % lower (80 per condition: 0.42 / 0.83 / 0.96). If baseline
-fare sensitivity is half as large (−0.5 per $), power at 60 per condition is 0.16 / 0.33 / 0.46. The false-positive
-rate with no true effect is ≈ 5 %.
+are saved in `analysis/power-results*.json`. At $15 fares (three options) with a fare coefficient of −0.33 per $ in A (off-peak share ≈ 48 %) and 60
+respondents per condition: power ≈ 0.33 / 0.70 / 0.86 if fare sensitivity in B is 25 / 40 / 50 % lower (80 per
+condition: 0.42 / 0.82 / 0.96). With half that sensitivity (−0.17 per $), power at 60 per condition is 0.16 / 0.34 /
+0.47. What matters is the utility of the saving, so tripling the fare has the same effect as tripling per-dollar
+sensitivity. The false-positive rate with no true effect is ≈ 5 %.
 
 ## 4. Data stored (one row per participant, table `responses`)
 

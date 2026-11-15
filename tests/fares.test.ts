@@ -3,15 +3,15 @@ import { PEAK_FARE_CENTS } from '../src/lib/config'
 import { fareCents, formatMoney, generateDesign } from '../src/lib/design'
 
 describe('fare calculation', () => {
-  it('peak fare is $5.00 regardless of discount', () => {
-    for (const d of [0, 15, 30, 45]) expect(fareCents(d, true)).toBe(500)
-    expect(PEAK_FARE_CENTS).toBe(500)
+  it('peak fare is $15.00 regardless of discount', () => {
+    for (const d of [0, 15, 30, 45]) expect(fareCents(d, true)).toBe(1500)
+    expect(PEAK_FARE_CENTS).toBe(1500)
   })
   it('off-peak fares match the proposal table', () => {
-    expect(fareCents(0, false)).toBe(500)
-    expect(fareCents(15, false)).toBe(425)
-    expect(fareCents(30, false)).toBe(350)
-    expect(fareCents(45, false)).toBe(275)
+    expect(fareCents(0, false)).toBe(1500)
+    expect(fareCents(15, false)).toBe(1275)
+    expect(fareCents(30, false)).toBe(1050)
+    expect(fareCents(45, false)).toBe(825)
   })
   it('rejects discounts outside the design', () => {
     expect(() => fareCents(20, false)).toThrow()
@@ -28,7 +28,7 @@ describe('fare calculation', () => {
       for (const t of d.tasks) {
         expect(t.alternatives.map((a) => a.kind)).toEqual(['peak', 'early', 'late'])
         const [peak, early, late] = t.alternatives
-        expect(peak.fareCents).toBe(500)
+        expect(peak.fareCents).toBe(1500)
         expect(early.fareCents).toBe(fareCents(d.fareRule[t.day], false))
         expect(late.fareCents).toBe(early.fareCents)
         for (const a of t.alternatives) expect(a.travelDay).toBe(t.day)
