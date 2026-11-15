@@ -1,7 +1,7 @@
 // Experiment constants. Changing anything here that affects the design MUST
 // bump DESIGN_VERSION so that stored responses remain interpretable.
 
-export const DESIGN_VERSION = 'invisible-fares-v1.5'
+export const DESIGN_VERSION = 'invisible-fares-v1.6'
 
 /** Peak fare in cents (USD 5.00). All money is handled in integer cents. */
 export const PEAK_FARE_CENTS = 500

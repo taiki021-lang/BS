@@ -12,6 +12,7 @@ import {
   DoneScreen,
   EstimateScreen,
   FareRuleScreen,
+  IntroVideoScreen,
   PostGameScreen,
   ProfileForm,
   RevealScreen,
@@ -20,8 +21,8 @@ import {
   Welcome,
 } from './ui/screens'
 
-type Step = 'welcome' | 'profile' | 'scenario' | 'rule' | 'task' | 'estimate' | 'reveal' | 'post' | 'done'
-const STEPS: Step[] = ['welcome', 'profile', 'scenario', 'rule', 'task', 'estimate', 'reveal', 'post', 'done']
+type Step = 'welcome' | 'profile' | 'video' | 'scenario' | 'rule' | 'task' | 'estimate' | 'reveal' | 'post' | 'done'
+const STEPS: Step[] = ['welcome', 'profile', 'video', 'scenario', 'rule', 'task', 'estimate', 'reveal', 'post', 'done']
 
 interface State {
   step: Step
@@ -149,7 +150,7 @@ function Study() {
     setS((x) => ({ ...x, ...patch, step, timings: { ...x.timings, [x.step]: (x.timings[x.step] ?? 0) + spent } }))
     // Log forward moves only (Back is not drop-out); 'profile' is logged in start(), 'done' after saving.
     const order = STEPS.indexOf(step)
-    if (order > STEPS.indexOf(s.step) && step !== 'profile' && step !== 'done') track({ ...s, ...patch } as State, step)
+    if (order > STEPS.indexOf(s.step) && step !== 'profile' && step !== 'video' && step !== 'done') track({ ...s, ...patch } as State, step)
     window.scrollTo(0, 0)
   }
 
@@ -217,10 +218,13 @@ function Study() {
           onBack={() => go('welcome')}
           onDone={(profile) => {
             const usualMin = gameDepartureMin(profile.usual_departure_min)
-            go('scenario', { profile, usualMin, design: generateDesign(s.seed, usualMin) })
+            go('video', { profile, usualMin, design: generateDesign(s.seed, usualMin) })
           }}
         />
       )
+      break
+    case 'video':
+      body = <IntroVideoScreen onNext={() => go('scenario')} onBack={() => go('profile')} />
       break
     case 'scenario':
       body = (
@@ -230,7 +234,7 @@ function Study() {
           reportedMin={s.profile?.usual_departure_min ?? null}
           workExperience={s.profile?.work_experience}
           onNext={() => go('rule')}
-          onBack={() => go('profile')}
+          onBack={() => go('video')}
         />
       )
       break
