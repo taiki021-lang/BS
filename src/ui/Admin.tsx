@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { balanceByCondition, choiceRows, participantRows, toCsv } from '../lib/csv'
+import { DESIGN_VERSION } from '../lib/config'
 import { IS_TEST } from '../lib/env'
 import { newSeed } from '../lib/rng'
 import { simulateSubmission } from '../lib/simulate'
@@ -24,6 +25,8 @@ export function Admin() {
   const [token, setToken] = useState('')
   const [subs, setSubs] = useState<Submission[] | null>(BACKEND === 'local' ? loadLocalSubmissions() : null)
   const [progress, setProgress] = useState<ProgressRow[] | null>(null)
+  // Default: export only real (live) responses of the current design version.
+  const [liveOnly, setLiveOnly] = useState(true)
   const [msg, setMsg] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -54,6 +57,9 @@ export function Admin() {
   }
 
   const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')
+  const exportSubs = (subs ?? []).filter((s) => !liveOnly || (!s.is_test && !s.is_simulated && s.design_version === DESIGN_VERSION))
+  const exportProgress = (progress ?? []).filter((e) => !liveOnly || (!e.is_test && e.design_version === DESIGN_VERSION))
+  const tag = liveOnly ? 'live' : 'all'
   const stats = subs && {
     total: subs.length,
     real: subs.filter((s) => !s.is_test && !s.is_simulated).length,
@@ -68,7 +74,7 @@ export function Admin() {
   const attrition =
     progress &&
     (['A', 'B'] as const).map((c) => {
-      const ids = (step: string) => new Set(progress.filter((e) => e.condition === c && e.step === step).map((e) => e.participant_id))
+      const ids = (step: string) => new Set(exportProgress.filter((e) => e.condition === c && e.step === step).map((e) => e.participant_id))
       return { condition: c, started: ids('profile').size, reached_game: ids('task').size, submitted: ids('done').size }
     })
 
@@ -114,17 +120,21 @@ export function Admin() {
             ))}
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className={btn} disabled={!subs.length} onClick={() => download(`participants_${stamp}.csv`, toCsv(participantRows(subs)))}>
+            <label className="mb-1 flex w-full items-center gap-2 text-sm">
+              <input type="checkbox" className="h-4 w-4 accent-indigo-600" checked={liveOnly} onChange={(e) => setLiveOnly(e.target.checked)} />
+              Live responses only ({DESIGN_VERSION}, no test or simulated rows): {exportSubs.length} participants
+            </label>
+            <button className={btn} disabled={!exportSubs.length} onClick={() => download(`participants_${tag}_${stamp}.csv`, toCsv(participantRows(exportSubs)))}>
               participants.csv
             </button>
-            <button className={btn} disabled={!subs.length} onClick={() => download(`choices_long_${stamp}.csv`, toCsv(choiceRows(subs)))}>
+            <button className={btn} disabled={!exportSubs.length} onClick={() => download(`choices_long_${tag}_${stamp}.csv`, toCsv(choiceRows(exportSubs)))}>
               choices_long.csv
             </button>
-            <button className={btn} disabled={!subs.length} onClick={() => download(`balance_${stamp}.csv`, toCsv(balanceByCondition(subs)))}>
+            <button className={btn} disabled={!exportSubs.length} onClick={() => download(`balance_${tag}_${stamp}.csv`, toCsv(balanceByCondition(exportSubs)))}>
               balance.csv
             </button>
             {progress && (
-              <button className={btn} disabled={!progress.length} onClick={() => download(`progress_${stamp}.csv`, toCsv(progress as unknown as Parameters<typeof toCsv>[0]))}>
+              <button className={btn} disabled={!exportProgress.length} onClick={() => download(`progress_${tag}_${stamp}.csv`, toCsv(exportProgress as unknown as Parameters<typeof toCsv>[0]))}>
                 progress.csv
               </button>
             )}
@@ -139,7 +149,7 @@ export function Admin() {
 
       {attrition && (
         <Card className="mb-4 text-sm">
-          <h2 className="mb-2 font-semibold">Progress by condition (all rows, incl. test)</h2>
+          <h2 className="mb-2 font-semibold">Progress by condition ({liveOnly ? "live only" : "all rows, incl. test"})</h2>
           <table className="w-full text-left">
             <thead className="text-xs text-slate-500">
               <tr><th>Cond.</th><th>Started</th><th>Reached game</th><th>Submitted</th></tr>

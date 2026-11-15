@@ -24,7 +24,11 @@ function cell(v: Row[string]): string {
 
 export function toCsv(rows: Row[]): string {
   if (!rows.length) return ''
-  const cols = Object.keys(rows[0])
+  // Union of keys over ALL rows (in first-seen order): records from different design versions
+  // carry different profile/post fields, and none may be dropped.
+  const seen = new Set<string>()
+  for (const r of rows) for (const k of Object.keys(r)) seen.add(k)
+  const cols = [...seen]
   return [cols.join(','), ...rows.map((r) => cols.map((c) => cell(r[c])).join(','))].join('\r\n') + '\r\n'
 }
 
@@ -91,6 +95,7 @@ export function choiceRows(subs: Submission[]): Row[] {
         rows.push({
           participant_id: s.participant_id,
           condition: s.condition,
+          pair_id: s.assignment_method === 'block' && s.assignment_slot ? pairIndex(s.assignment_slot) : null,
           seed: s.seed,
           design_version: s.design_version,
           is_test: s.is_test,

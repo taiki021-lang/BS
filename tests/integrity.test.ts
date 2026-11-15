@@ -126,3 +126,11 @@ describe('v1.3 post-game columns', () => {
     expect(ra).toHaveProperty('day_switch')
   })
 })
+
+describe('CSV header covers all rows', () => {
+  it('keeps columns that only later rows have (records from different versions)', () => {
+    const csv = toCsv([{ a: 1 }, { a: 2, b: 'new' }])
+    expect(csv.split('\r\n')[0]).toBe('a,b')
+    expect(csv.split('\r\n')[2]).toBe('2,new')
+  })
+})
