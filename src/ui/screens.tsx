@@ -317,6 +317,7 @@ export function IntroVideoScreen({ onNext, onBack }: { onNext: () => void; onBac
         <video
           className="mx-auto block max-h-[58vh] w-full object-contain"
           src="/media/intro-2035.mp4"
+          poster="/media/commute-2035.jpg"
           controls
           playsInline
           preload="metadata"
@@ -353,6 +354,13 @@ export function Scenario({ condition, usualMin, reportedMin, workExperience, onN
   ]
   return (
     <>
+      <img
+        src="/media/commute-2035.jpg"
+        alt="Your commute in 2035: hybrid work, gateless rail where you walk straight in, ten fixed office days where you choose when to travel, fares that vary by time and day, and a $150 allowance from your employer that you keep if unspent."
+        className="mb-4 block h-auto w-full rounded-2xl shadow-sm"
+        width={1280}
+        height={960}
+      />
       <H1>It’s 2035</H1>
       <p className="mb-4 text-slate-600">
         Imagine it’s 2035. You work in{' '}
